@@ -1,0 +1,24 @@
+DATA SEGMENT
+    N1 DW 8888H
+    N2 DW 4444H
+    N3 DW ? ; Initialize N3 to hold the result
+DATA ENDS
+
+CODE SEGMENT
+    ASSUME CS:CODE, DS:DATA
+START:
+    MOV AX, DATA    ; Load data segment address to AX
+    MOV DS, AX      ; Set DS to point to the data segment
+
+    XOR AX, AX      ; Clear AX
+    MOV BX, AX      ; Clear BX
+
+    MOV AX, N1      ; Move N1 to AX
+    SUB AX, N2      ; Subtract N2 from AX
+    MOV N3, AX      ; Store the result in N3
+
+    JNC STOP        ; Jump if no carry flag is set
+    INC BX          ; Increment BX if carry flag is set
+STOP:
+    ; Your code stops here, add CODE ENDS if needed
+CODE ENDS

@@ -1,0 +1,40 @@
+.model small
+.stack 64
+.data
+    numbers DB 10, 30, 5, 40, 20  ; Example numbers
+    largest DB ?, smallest DB ?
+.code
+start:
+    mov ax, @data
+    mov ds, ax
+
+    mov si, offset numbers   ; Point SI to the numbers array
+    mov al, [si]            ; Load the first number into AL
+    mov bl, al              ; Initialize largest with the first number
+    mov bh, al              ; Initialize smallest with the first number
+
+    inc si                  ; Move to the next number
+    dec cl                  ; Decrement the counter or loop count
+
+next:
+    mov al, [si]            ; Load the current number
+    cmp al, bl              ; Compare with largest
+    jnc not_largest         ; If not larger, skip updating largest
+    mov bl, al              ; Update largest if larger
+not_largest:
+    cmp al, bh              ; Compare with smallest
+    jc update_smallest      ; If smaller, update smallest
+    jmp continue_loop
+update_smallest:
+    mov bh, al              ; Update smallest if smaller
+continue_loop:
+    inc si                  ; Move to the next number
+    loop next               ; Loop until all numbers are checked
+
+    ; At this point, BL contains the largest number and BH contains the smallest number
+
+    ; Terminate the program or perform further operations as needed
+
+    mov ah, 4ch             ; Exit program
+    int 21h
+end start

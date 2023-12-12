@@ -1,0 +1,31 @@
+data segment
+    num1 dw 1234h, 5678h    ; Define num1 with two words (16 bits each)
+    num2 dw ab12h, cdefh    ; Define num2 with two words (16 bits each)
+    result dw 3 dup(?)      ; Define result with three words to hold the result
+data ends
+
+code segment
+    assume cs:code, ds:data
+
+START:
+    mov ax, data            ; Load data segment address to AX
+    mov ds, ax              ; Set DS to point to the data segment
+
+    ; Performing addition
+    mov ax, num1            ; Move the first word of num1 to AX
+    add ax, [num2]          ; Add the first word of num2 to AX
+    mov [result], ax        ; Store the result in the first word of result
+
+    mov ax, num1 + 2        ; Move the second word of num1 to AX
+    adc ax, [num2 + 2]      ; Add the second word of num2 to AX with carry
+    mov [result + 2], ax    ; Store the result in the second word of result
+
+    mov dx, 0               ; Clear DX to prepare for carry
+    adc dx, 0               ; Add any potential carry to DX
+    mov [result + 4], dx    ; Store the final carry in the third word of result
+
+    mov ah, 4ch             ; Exit program
+    int 21h
+code ends
+
+end START                   ; End of code segment and specify entry point

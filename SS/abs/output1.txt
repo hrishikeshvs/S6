@@ -1,0 +1,17 @@
+
+Name of Program=SAMPLE
+Starting Address=01000
+Length of Program=0035
+1000	XX
+1001	XX
+1002	XX
+1003	XX
+1004	XX
+1005	XX
+1006	XX
+1007	XX
+1008	XX
+1009	XX
+1010	11
+1011	11
+1012	11

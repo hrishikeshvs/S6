@@ -1,0 +1,40 @@
+DATA SEGMENT
+    STRING1 DB 11H,22H,33H,44H,55H
+    MSG1 DB "FOUND$"
+    MSG2 DB "NOT FOUND$"
+    SE DB 33H
+DATA ENDS
+
+PRINT MACRO MSG
+    MOV AH, 09H
+    LEA DX, MSG
+    INT 21H
+ENDM
+
+CODE SEGMENT
+    ASSUME CS:CODE, DS:DATA
+START:
+    MOV AX, DATA
+    MOV DS, AX
+
+    MOV AL, SE        ; Value to search for
+    LEA SI, STRING1   ; Load address of STRING1 into SI
+    MOV CX, 05H       ; Number of elements in STRING1
+
+    UP:
+    CMP AL, [SI]      ; Compare AL with byte at SI
+    JZ FO             ; If match found, jump to FO
+    INC SI            ; Move to next byte
+    DEC CX            ; Decrement counter
+    JNZ UP            ; Continue until CX is zero
+
+    ; If the loop completes without finding a match
+    PRINT MSG2        ; Print "NOT FOUND"
+    JMP END1
+
+    FO:
+    PRINT MSG1        ; Print "FOUND"
+
+    END1:
+    int 3		; Additional code or termination here
+CODE ENDS

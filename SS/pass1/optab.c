@@ -1,0 +1,7 @@
+ADD 18
+LDA 00
+LDCH 50
+STCH 54
+START *
+END *
+
